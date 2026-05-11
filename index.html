@@ -1,161 +1,1095 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safe+ | Ressources Gaming Premium & Gratuites</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Safe+ | FiveM & Roblox Scripts</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root {
+      --beige:       #f5ede0;
+      --beige-light: #faf5ef;
+      --beige-mid:   #e8d9c4;
+      --brown:       #7c5c3e;
+      --brown-dark:  #4e3621;
+      --brown-light: #a8845f;
+      --brown-pale:  #c9a87a;
+      --white:       #fffdf9;
+      --text:        #2e1f0e;
+      --text-muted:  #7a6248;
+      --discord:     #5865F2;
+      --shadow:      rgba(76, 54, 33, 0.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--beige-light);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE TEXTURE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.5;
+    }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(250, 245, 239, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--beige-mid);
+      padding: 0 2.5rem;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--brown-dark);
+      letter-spacing: -0.5px;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--brown-pale); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--brown-dark); }
+
+    .nav-actions { display: flex; gap: 0.75rem; align-items: center; }
+
+    .btn { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.55rem 1.25rem; border-radius: 8px; font-size: 0.86rem; font-weight: 600; cursor: pointer; border: none; text-decoration: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+    .btn-outline { background: transparent; border: 1.5px solid var(--brown-light); color: var(--brown); }
+    .btn-outline:hover { background: var(--brown); color: var(--white); }
+    .btn-primary { background: var(--brown-dark); color: var(--white); }
+    .btn-primary:hover { background: var(--brown); transform: translateY(-1px); box-shadow: 0 4px 14px var(--shadow); }
+    .btn-discord { background: var(--discord); color: #fff; }
+    .btn-discord:hover { background: #4752d8; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(88,101,242,0.35); }
+    .btn-lg { padding: 0.85rem 2rem; font-size: 0.95rem; border-radius: 10px; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 7rem 2rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 30%, rgba(200,168,122,0.25) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 80% 70%, rgba(124,92,62,0.12) 0%, transparent 60%);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--beige-mid);
+      border: 1px solid var(--brown-pale);
+      color: var(--brown);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 1.8rem;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 700;
+      line-height: 1.0;
+      color: var(--brown-dark);
+      letter-spacing: -2px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.7s ease 0.1s both;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--brown-pale);
+    }
+
+    .hero p {
+      max-width: 560px;
+      font-size: 1.08rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.7s ease 0.2s both;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeUp 0.7s ease 0.3s both;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 4.5rem;
+      animation: fadeUp 0.7s ease 0.4s both;
+    }
+    .hero-stat { text-align: center; }
+    .hero-stat strong {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--brown-dark);
+    }
+    .hero-stat span { font-size: 0.82rem; color: var(--text-muted); font-weight: 500; }
+
+    .hero-divider {
+      width: 1px;
+      height: 50px;
+      background: var(--beige-mid);
+      align-self: center;
+    }
+
+    /* ─── SECTION COMMONS ─── */
+    section { padding: 6rem 2rem; }
+
+    .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .section-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--brown-pale);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--brown-dark);
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+    .section-sub { color: var(--text-muted); font-size: 1rem; margin-top: 0.75rem; }
+
+    /* ─── FILTER TABS ─── */
+    .filter-tabs {
+      display: flex;
+      gap: 0.6rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+    .filter-tab {
+      padding: 0.5rem 1.35rem;
+      border-radius: 100px;
+      border: 1.5px solid var(--beige-mid);
+      background: var(--white);
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .filter-tab:hover { border-color: var(--brown-pale); color: var(--brown); }
+    .filter-tab.active { background: var(--brown-dark); color: var(--white); border-color: var(--brown-dark); }
+
+    /* ─── PRODUCT GRID ─── */
+    .shop-section { background: var(--beige-light); }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.75rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .product-card {
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--beige-mid);
+      transition: all 0.3s;
+      cursor: pointer;
+      position: relative;
+    }
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px var(--shadow);
+      border-color: var(--brown-pale);
+    }
+
+    .product-thumb {
+      width: 100%;
+      height: 190px;
+      background: linear-gradient(135deg, var(--beige-mid) 0%, var(--beige) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-thumb-icon {
+      font-size: 3.5rem;
+      opacity: 0.6;
+    }
+
+    .product-thumb .game-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--brown-dark);
+      color: var(--white);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 3px 10px;
+      border-radius: 100px;
+      text-transform: uppercase;
+    }
+
+    .product-thumb .free-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #2d9e5f;
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 3px 10px;
+      border-radius: 100px;
+      text-transform: uppercase;
+    }
+
+    .product-body { padding: 1.35rem 1.5rem 1.5rem; }
+    .product-body h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--brown-dark);
+      margin-bottom: 0.4rem;
+    }
+    .product-body p {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 1.1rem;
+    }
+
+    .product-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .product-stats { display: flex; gap: 1rem; }
+    .product-stat { font-size: 0.78rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.3rem; }
+    .product-stat i { color: var(--brown-pale); }
+
+    .btn-download {
+      background: var(--brown-dark);
+      color: var(--white);
+      padding: 0.5rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .btn-download:hover { background: var(--brown); }
+
+    /* ─── HOW IT WORKS ─── */
+    .how-section { background: var(--beige); }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .step-card {
+      text-align: center;
+      padding: 2rem 1.5rem;
+    }
+    .step-number {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: var(--brown-dark);
+      color: var(--white);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.2rem;
+    }
+    .step-card h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--brown-dark);
+      margin-bottom: 0.5rem;
+    }
+    .step-card p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--brown-dark);
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      padding: 2.5rem 2rem;
+      font-size: 0.85rem;
+    }
+    footer a { color: var(--brown-pale); text-decoration: none; }
+    footer .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+    }
+    footer .footer-logo span { color: var(--brown-pale); }
+
+    /* ─── MODALS ─── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(30,18,6,0.55);
+      backdrop-filter: blur(6px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.2s ease;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 2.5rem;
+      width: min(460px, 95vw);
+      position: relative;
+      animation: modalPop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      border: 1px solid var(--beige-mid);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1.1rem; right: 1.1rem;
+      background: var(--beige);
+      border: none;
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .modal-close:hover { background: var(--beige-mid); color: var(--brown-dark); }
+
+    .modal-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--brown-dark);
+      text-align: center;
+      margin-bottom: 0.25rem;
+    }
+    .modal-logo span { color: var(--brown-pale); }
+    .modal-subtitle { text-align: center; color: var(--text-muted); font-size: 0.88rem; margin-bottom: 2rem; }
+
+    .form-group { margin-bottom: 1.1rem; }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--brown); margin-bottom: 0.4rem; letter-spacing: 0.02em; }
+    .form-group input {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border: 1.5px solid var(--beige-mid);
+      border-radius: 10px;
+      font-size: 0.9rem;
+      color: var(--text);
+      background: var(--beige-light);
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-group input:focus { border-color: var(--brown-pale); background: var(--white); }
+
+    .form-divider { text-align: center; color: var(--text-muted); font-size: 0.8rem; margin: 1.25rem 0; display: flex; align-items: center; gap: 0.75rem; }
+    .form-divider::before, .form-divider::after { content:''; flex:1; height:1px; background: var(--beige-mid); }
+
+    .modal-footer-text { text-align: center; margin-top: 1.2rem; font-size: 0.82rem; color: var(--text-muted); }
+    .modal-footer-text a { color: var(--brown); font-weight: 600; cursor: pointer; }
+
+    /* Download gate modal */
+    .discord-gate {
+      text-align: center;
+    }
+    .discord-gate .gate-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .discord-gate h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--brown-dark);
+      margin-bottom: 0.5rem;
+    }
+    .discord-gate p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.8rem; }
+
+    /* Admin Panel */
+    .admin-panel {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      background: var(--beige-light);
+      overflow-y: auto;
+      animation: fadeIn 0.2s ease;
+    }
+    .admin-panel.open { display: block; }
+
+    .admin-topbar {
+      background: var(--brown-dark);
+      color: var(--white);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .admin-topbar h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .admin-topbar span { color: var(--brown-pale); }
+
+    .admin-content { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem; }
+
+    .admin-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .admin-card {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 1.5rem;
+      border: 1px solid var(--beige-mid);
+    }
+    .admin-card .ac-label { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .admin-card .ac-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--brown-dark);
+    }
+
+    .admin-section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--brown-dark);
+      margin-bottom: 1rem;
+    }
+
+    .admin-table { width: 100%; border-collapse: collapse; background: var(--white); border-radius: 14px; overflow: hidden; border: 1px solid var(--beige-mid); margin-bottom: 2rem; }
+    .admin-table thead { background: var(--beige); }
+    .admin-table th { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); padding: 0.9rem 1.2rem; text-align: left; }
+    .admin-table td { padding: 1rem 1.2rem; font-size: 0.88rem; color: var(--text); border-top: 1px solid var(--beige-mid); }
+    .admin-table tr:hover td { background: var(--beige-light); }
+
+    .add-product-form {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 2rem;
+      border: 1px solid var(--beige-mid);
+      margin-bottom: 2rem;
+    }
+    .add-product-form .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .add-product-form select {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border: 1.5px solid var(--beige-mid);
+      border-radius: 10px;
+      font-size: 0.9rem;
+      color: var(--text);
+      background: var(--beige-light);
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .add-product-form select:focus { border-color: var(--brown-pale); }
+    .add-product-form textarea {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border: 1.5px solid var(--beige-mid);
+      border-radius: 10px;
+      font-size: 0.9rem;
+      color: var(--text);
+      background: var(--beige-light);
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      resize: vertical;
+      transition: border-color 0.2s;
+    }
+    .add-product-form textarea:focus { border-color: var(--brown-pale); }
+
+    .badge-active { background: #e6f7ee; color: #2d9e5f; padding: 2px 10px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; }
+    .badge-fivem { background: #fff1e6; color: #c07230; padding: 2px 10px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; }
+    .badge-roblox { background: #fdeaea; color: #c03030; padding: 2px 10px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; }
+
+    .btn-danger { background: #fdeaea; color: #c03030; border: none; padding: 0.4rem 0.9rem; border-radius: 7px; font-size: 0.8rem; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+    .btn-danger:hover { background: #c03030; color: #fff; }
+    .btn-edit { background: var(--beige-mid); color: var(--brown); border: none; padding: 0.4rem 0.9rem; border-radius: 7px; font-size: 0.8rem; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-right: 0.4rem; transition: all 0.2s; }
+    .btn-edit:hover { background: var(--brown); color: var(--white); }
+
+    /* ─── TOAST ─── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--brown-dark);
+      color: var(--white);
+      padding: 0.85rem 1.5rem;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      z-index: 9999;
+      display: none;
+      animation: slideUp 0.3s ease;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .toast.show { display: block; }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes modalPop {
+      from { opacity: 0; transform: scale(0.92) translateY(10px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── USER BAR (when logged in) ─── */
+    .user-badge {
+      display: none;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--beige);
+      border: 1px solid var(--beige-mid);
+      border-radius: 100px;
+      padding: 0.35rem 1rem 0.35rem 0.5rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--brown-dark);
+    }
+    .user-badge.visible { display: flex; }
+    .user-badge img {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero-stats { gap: 1.5rem; }
+      .hero-divider { display: none; }
+      .add-product-form .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="container nav-container">
-            <a href="index.html" class="logo">Safe<span>+</span></a>
-            <ul class="nav-links">
-                <li><a href="index.html" class="active">Accueil</a></li>
-                <li><a href="pages/ressources.html">Ressources</a></li>
-                <li><a href="#categories">Catégories</a></li>
-                <li><a href="#faq">Support</a></li>
-            </ul>
-            <div class="nav-btns">
-                <a href="pages/login.html" class="btn-login">Connexion</a>
-                <a href="pages/ressources.html" class="btn-primary">Explorer</a>
-            </div>
-            <div class="menu-toggle">
-                <i class="fa-solid fa-bars-staggered"></i>
-            </div>
-        </div>
-    </nav>
+<!-- ═══ NAVBAR ═══ -->
+<nav>
+  <a href="#" class="nav-logo">Safe<span>+</span></a>
+  <ul class="nav-links">
+    <li><a href="#shop">Boutique</a></li>
+    <li><a href="#how">Comment ça marche</a></li>
+    <li><a href="#" onclick="openAdminLogin()">Admin</a></li>
+  </ul>
+  <div class="nav-actions">
+    <div class="user-badge" id="userBadge">
+      <img src="https://cdn.discordapp.com/embed/avatars/0.png" id="userAvatar" alt="avatar"/>
+      <span id="userName">Utilisateur</span>
+    </div>
+    <button class="btn btn-discord" id="discordBtn" onclick="loginDiscord()">
+      <i class="fab fa-discord"></i> Connexion Discord
+    </button>
+    <button class="btn btn-outline" onclick="openAdminLogin()">
+      <i class="fas fa-shield-halved"></i> Admin
+    </button>
+  </div>
+</nav>
 
-    <section class="hero">
-        <div class="container hero-grid">
-            <div class="hero-content">
-                <span class="badge">Nouveauté : UI Pack v2.0 disponible</span>
-                <h1>Des ressources <span>gratuites</span> et sécurisées pour le gaming.</h1>
-                <p>Accédez à une bibliothèque premium de scripts, d'assets et d'outils pour Roblox, FiveM et bien plus. Le tout, sans frais.</p>
-                <div class="hero-actions">
-                    <a href="pages/ressources.html" class="btn-primary">Découvrir le catalogue</a>
-                    <a href="#" class="btn-secondary"><i class="fa-brands fa-discord"></i> Rejoindre le Discord</a>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="hero-card-floating">
-                    <div class="floating-img"></div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-badge"><i class="fas fa-shield-check"></i> Scripts 100% Gratuits & Sécurisés</div>
+  <h1>Meilleurs scripts<br><em>FiveM & Roblox</em></h1>
+  <p>Téléchargez gratuitement des ressources premium optimisées pour FiveM et Roblox. Connectez-vous avec Discord pour accéder à tous les contenus.</p>
+  <div class="hero-cta">
+    <a href="#shop" class="btn btn-primary btn-lg"><i class="fas fa-store"></i> Explorer la boutique</a>
+    <button class="btn btn-discord btn-lg" onclick="loginDiscord()"><i class="fab fa-discord"></i> Se connecter</button>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong id="statScripts">24</strong><span>Scripts disponibles</span></div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat"><strong id="statDownloads">1.4k</strong><span>Téléchargements</span></div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat"><strong>100%</strong><span>Gratuit</span></div>
+  </div>
+</section>
 
-    <section class="stats">
-        <div class="container stats-grid">
-            <div class="stat-card">
-                <h3 class="counter" data-target="1500">0</h3>
-                <p>Ressources</p>
-            </div>
-            <div class="stat-card">
-                <h3 class="counter" data-target="12000">0</h3>
-                <p>Utilisateurs</p>
-            </div>
-            <div class="stat-card">
-                <h3 class="counter" data-target="45000">0</h3>
-                <p>Téléchargements</p>
-            </div>
-            <div class="stat-card">
-                <h3 class="counter" data-target="12">0</h3>
-                <p>Catégories</p>
-            </div>
-        </div>
-    </section>
+<!-- ═══ SHOP ═══ -->
+<section class="shop-section" id="shop">
+  <div class="section-header">
+    <div class="section-tag">Boutique</div>
+    <h2 class="section-title">Tous nos scripts</h2>
+    <p class="section-sub">Ressources optimisées, régulièrement mises à jour.</p>
+  </div>
 
-    <section class="categories" id="categories">
-        <div class="container">
-            <div class="section-header">
-                <h2>Parcourir par <span>catégories</span></h2>
-                <p>Trouvez exactement ce dont vous avez besoin pour vos projets.</p>
-            </div>
-            <div class="category-grid">
-                <div class="cat-card">
-                    <i class="fa-solid fa-cube"></i>
-                    <h3>Roblox</h3>
-                    <span>240 fichiers</span>
-                </div>
-                <div class="cat-card">
-                    <i class="fa-solid fa-car"></i>
-                    <h3>FiveM</h3>
-                    <span>120 fichiers</span>
-                </div>
-                <div class="cat-card">
-                    <i class="fa-brands fa-discord"></i>
-                    <h3>Discord</h3>
-                    <span>85 fichiers</span>
-                </div>
-                <div class="cat-card">
-                    <i class="fa-solid fa-pen-nib"></i>
-                    <h3>UI Packs</h3>
-                    <span>45 fichiers</span>
-                </div>
-            </div>
-        </div>
-    </section>
+  <div class="filter-tabs" id="filterTabs">
+    <button class="filter-tab active" onclick="filterProducts('all', this)">Tout</button>
+    <button class="filter-tab" onclick="filterProducts('fivem', this)">FiveM</button>
+    <button class="filter-tab" onclick="filterProducts('roblox', this)">Roblox</button>
+  </div>
 
-    <section class="faq" id="faq">
-        <div class="container">
-            <div class="section-header">
-                <h2>Foire aux <span>questions</span></h2>
-            </div>
-            <div class="faq-container">
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h4>Est-ce vraiment gratuit ?</h4>
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Oui, Safe+ est une plateforme communautaire. Toutes les ressources listées ici sont accessibles gratuitement pour tous les membres.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h4>Les fichiers sont-ils sécurisés ?</h4>
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Chaque fichier est vérifié manuellement par notre équipe de modération pour garantir l'absence de malwares ou de backdoors.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <div class="products-grid" id="productsGrid">
+    <!-- Products injected by JS -->
+  </div>
+</section>
 
-    <footer>
-        <div class="container footer-grid">
-            <div class="footer-about">
-                <a href="#" class="logo">Safe<span>+</span></a>
-                <p>La référence du contenu gratuit pour les créateurs et joueurs passionnés.</p>
-            </div>
-            <div class="footer-links">
-                <h4>Plateforme</h4>
-                <ul>
-                    <li><a href="#">Ressources</a></li>
-                    <li><a href="#">Mises à jour</a></li>
-                    <li><a href="#">Partenaires</a></li>
-                </ul>
-            </div>
-            <div class="footer-socials">
-                <h4>Nous suivre</h4>
-                <div class="social-icons">
-                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                    <a href="#"><i class="fa-brands fa-discord"></i></a>
-                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 Safe+. Tous droits réservés.</p>
-        </div>
-    </footer>
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="how-section" id="how">
+  <div class="section-header">
+    <div class="section-tag">Guide</div>
+    <h2 class="section-title">Comment télécharger ?</h2>
+    <p class="section-sub">Simple et rapide en 3 étapes.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-number">1</div>
+      <h4>Connexion Discord</h4>
+      <p>Connectez-vous avec votre compte Discord pour lier votre identité et accéder aux téléchargements.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">2</div>
+      <h4>Choisir un script</h4>
+      <p>Parcourez notre boutique et sélectionnez la ressource FiveM ou Roblox qui vous intéresse.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">3</div>
+      <h4>Télécharger</h4>
+      <p>Cliquez sur télécharger et installez directement sur votre serveur. Mises à jour automatiques disponibles.</p>
+    </div>
+  </div>
+</section>
 
-    <script src="script.js"></script>
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-logo">Safe<span>+</span></div>
+  <p>© 2025 Safe+ — FiveM & Roblox Scripts &nbsp;|&nbsp; <a href="#">Discord</a> &nbsp;|&nbsp; <a href="#">Conditions d'utilisation</a></p>
+</footer>
+
+<!-- ═══ DISCORD GATE MODAL ═══ -->
+<div class="modal-overlay" id="discordGateModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('discordGateModal')"><i class="fas fa-xmark"></i></button>
+    <div class="discord-gate">
+      <div class="gate-icon">🔐</div>
+      <h3>Connexion requise</h3>
+      <p>Pour télécharger <strong id="gateProductName"></strong>, vous devez vous connecter avec votre compte Discord. Cela permet de lier votre compte et de sécuriser les accès.</p>
+      <button class="btn btn-discord btn-lg" style="width:100%" onclick="loginDiscord(); closeModal('discordGateModal')">
+        <i class="fab fa-discord"></i> Se connecter avec Discord
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DOWNLOAD MODAL (logged) ═══ -->
+<div class="modal-overlay" id="downloadModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('downloadModal')"><i class="fas fa-xmark"></i></button>
+    <div class="discord-gate">
+      <div class="gate-icon">📦</div>
+      <h3 id="dlProductName">Script</h3>
+      <p id="dlProductDesc">Description du produit.</p>
+      <button class="btn btn-primary btn-lg" style="width:100%; margin-bottom:0.75rem" onclick="confirmDownload()">
+        <i class="fas fa-download"></i> Télécharger maintenant
+      </button>
+      <button class="btn btn-outline" style="width:100%" onclick="closeModal('downloadModal')">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ADMIN LOGIN MODAL ═══ -->
+<div class="modal-overlay" id="adminLoginModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('adminLoginModal')"><i class="fas fa-xmark"></i></button>
+    <div class="modal-logo">Safe<span>+</span></div>
+    <div class="modal-subtitle">Accès Administrateur</div>
+    <div class="form-group">
+      <label>Identifiant</label>
+      <input type="text" id="adminUser" placeholder="admin" autocomplete="off"/>
+    </div>
+    <div class="form-group">
+      <label>Mot de passe</label>
+      <input type="password" id="adminPass" placeholder="••••••••" onkeydown="if(event.key==='Enter') tryAdminLogin()"/>
+    </div>
+    <button class="btn btn-primary" style="width:100%; margin-top:0.5rem" onclick="tryAdminLogin()">
+      <i class="fas fa-arrow-right"></i> Connexion
+    </button>
+    <div class="modal-footer-text" id="adminError" style="color:#c03030; display:none;">Identifiants incorrects.</div>
+  </div>
+</div>
+
+<!-- ═══ ADMIN PANEL ═══ -->
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-topbar">
+    <h1>Safe<span>+</span> — Tableau de bord</h1>
+    <button class="btn btn-outline" style="color:#fff; border-color:rgba(255,255,255,0.3)" onclick="closeAdmin()">
+      <i class="fas fa-right-from-bracket"></i> Déconnexion
+    </button>
+  </div>
+  <div class="admin-content">
+    <div class="admin-cards" id="adminCards">
+      <div class="admin-card">
+        <div class="ac-label">Total Scripts</div>
+        <div class="ac-value" id="acTotal">0</div>
+      </div>
+      <div class="admin-card">
+        <div class="ac-label">FiveM</div>
+        <div class="ac-value" id="acFiveM">0</div>
+      </div>
+      <div class="admin-card">
+        <div class="ac-label">Roblox</div>
+        <div class="ac-value" id="acRoblox">0</div>
+      </div>
+      <div class="admin-card">
+        <div class="ac-label">Téléchargements</div>
+        <div class="ac-value" id="acDownloads">0</div>
+      </div>
+    </div>
+
+    <!-- Add Product -->
+    <div class="admin-section-title">Ajouter un script</div>
+    <div class="add-product-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nom du script</label>
+          <input type="text" id="newName" placeholder="ex: ESX Garage System"/>
+        </div>
+        <div class="form-group">
+          <label>Jeu</label>
+          <select id="newGame">
+            <option value="fivem">FiveM</option>
+            <option value="roblox">Roblox</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="newDesc" rows="3" placeholder="Description courte du script..."></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Lien de téléchargement</label>
+          <input type="text" id="newLink" placeholder="https://github.com/..."/>
+        </div>
+        <div class="form-group">
+          <label>Emoji / Icône</label>
+          <input type="text" id="newIcon" placeholder="🚗"/>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="addProduct()"><i class="fas fa-plus"></i> Ajouter le script</button>
+    </div>
+
+    <!-- Products table -->
+    <div class="admin-section-title">Scripts publiés</div>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Jeu</th>
+          <th>Téléchargements</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="adminTableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ TOAST ═══ -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ─── STATE ───
+  const ADMIN_CREDS = { user: 'admin', pass: 'safeplus2025' };
+
+  let discordUser = null;
+  let currentProduct = null;
+
+  let products = JSON.parse(localStorage.getItem('safeplus_products') || 'null') || [
+    { id: 1, name: 'ESX Garage System', game: 'fivem', desc: 'Système de garage avancé avec interface NUI moderne, compatible ESX 1.9+. Optimisé pour les performances.', icon: '🚗', downloads: 312, link: '#' },
+    { id: 2, name: 'vRP Phone Script', game: 'fivem', desc: 'Téléphone in-game complet avec SMS, contacts, appels, réseaux sociaux. Fork vRP2 ready.', icon: '📱', downloads: 245, link: '#' },
+    { id: 3, name: 'ESX Bank System', game: 'fivem', desc: 'Banque RP complète : dépôts, retraits, virements, historique. Interface moderne.', icon: '🏦', downloads: 188, link: '#' },
+    { id: 4, name: 'Admin Menu FiveM', game: 'fivem', desc: 'Menu admin puissant : kicks, bans, téléportation, spawn véhicules & items. Permissions configurables.', icon: '⚙️', downloads: 421, link: '#' },
+    { id: 5, name: 'Roblox Combat System', game: 'roblox', desc: 'Module de combat PVP avancé avec animations personnalisées, dégâts, combos et effets visuels.', icon: '⚔️', downloads: 156, link: '#' },
+    { id: 6, name: 'Roblox Admin GUI', game: 'roblox', desc: 'Interface admin pour jeux Roblox : gestion joueurs, logs, ban system, et commandes rapides.', icon: '🛡️', downloads: 203, link: '#' },
+  ];
+
+  function saveProducts() { localStorage.setItem('safeplus_products', JSON.stringify(products)); }
+
+  // ─── RENDER SHOP ───
+  function renderProducts(filter = 'all') {
+    const grid = document.getElementById('productsGrid');
+    const filtered = filter === 'all' ? products : products.filter(p => p.game === filter);
+    grid.innerHTML = filtered.map(p => `
+      <div class="product-card" data-game="${p.game}">
+        <div class="product-thumb">
+          <div class="product-thumb-icon">${p.icon}</div>
+          <span class="game-badge">${p.game === 'fivem' ? 'FiveM' : 'Roblox'}</span>
+          <span class="free-badge">GRATUIT</span>
+        </div>
+        <div class="product-body">
+          <h3>${p.name}</h3>
+          <p>${p.desc}</p>
+          <div class="product-meta">
+            <div class="product-stats">
+              <div class="product-stat"><i class="fas fa-download"></i> ${p.downloads}</div>
+            </div>
+            <button class="btn-download" onclick="tryDownload(${p.id})">
+              <i class="fas fa-download"></i> Télécharger
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+    document.getElementById('statScripts').textContent = products.length;
+    document.getElementById('statDownloads').textContent = formatNum(products.reduce((a,b) => a + b.downloads, 0));
+  }
+
+  function formatNum(n) { return n >= 1000 ? (n/1000).toFixed(1) + 'k' : n; }
+
+  function filterProducts(type, btn) {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    renderProducts(type);
+  }
+
+  // ─── DOWNLOAD FLOW ───
+  function tryDownload(id) {
+    currentProduct = products.find(p => p.id === id);
+    if (!discordUser) {
+      document.getElementById('gateProductName').textContent = currentProduct.name;
+      openModal('discordGateModal');
+    } else {
+      document.getElementById('dlProductName').textContent = currentProduct.name;
+      document.getElementById('dlProductDesc').textContent = currentProduct.desc;
+      openModal('downloadModal');
+    }
+  }
+
+  function confirmDownload() {
+    if (!currentProduct) return;
+    currentProduct.downloads++;
+    saveProducts();
+    renderProducts();
+    closeModal('downloadModal');
+    showToast(`✅ Téléchargement de "${currentProduct.name}" démarré !`);
+    if (currentProduct.link && currentProduct.link !== '#') window.open(currentProduct.link, '_blank');
+  }
+
+  // ─── DISCORD LOGIN MOCK ───
+  function loginDiscord() {
+    // In production: OAuth2 Discord flow
+    // Here we simulate a successful login
+    discordUser = {
+      id: '123456789',
+      username: 'Player#0001',
+      avatar: 'https://cdn.discordapp.com/embed/avatars/1.png'
+    };
+    document.getElementById('discordBtn').style.display = 'none';
+    const badge = document.getElementById('userBadge');
+    badge.classList.add('visible');
+    document.getElementById('userName').textContent = discordUser.username;
+    document.getElementById('userAvatar').src = discordUser.avatar;
+    showToast('🎉 Connecté avec Discord !');
+  }
+
+  // ─── ADMIN ───
+  function openAdminLogin() { openModal('adminLoginModal'); document.getElementById('adminError').style.display = 'none'; }
+
+  function tryAdminLogin() {
+    const u = document.getElementById('adminUser').value.trim();
+    const p = document.getElementById('adminPass').value;
+    if (u === ADMIN_CREDS.user && p === ADMIN_CREDS.pass) {
+      closeModal('adminLoginModal');
+      openAdmin();
+    } else {
+      document.getElementById('adminError').style.display = 'block';
+    }
+  }
+
+  function openAdmin() {
+    document.getElementById('adminPanel').classList.add('open');
+    renderAdminTable();
+    updateAdminStats();
+  }
+
+  function closeAdmin() {
+    document.getElementById('adminPanel').classList.remove('open');
+  }
+
+  function renderAdminTable() {
+    const tbody = document.getElementById('adminTableBody');
+    tbody.innerHTML = products.map(p => `
+      <tr>
+        <td>${p.icon} ${p.name}</td>
+        <td><span class="badge-${p.game}">${p.game === 'fivem' ? 'FiveM' : 'Roblox'}</span></td>
+        <td>${p.downloads}</td>
+        <td><span class="badge-active">Actif</span></td>
+        <td>
+          <button class="btn-edit" onclick="editProduct(${p.id})"><i class="fas fa-pen"></i></button>
+          <button class="btn-danger" onclick="deleteProduct(${p.id})"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function updateAdminStats() {
+    document.getElementById('acTotal').textContent = products.length;
+    document.getElementById('acFiveM').textContent = products.filter(p => p.game === 'fivem').length;
+    document.getElementById('acRoblox').textContent = products.filter(p => p.game === 'roblox').length;
+    document.getElementById('acDownloads').textContent = products.reduce((a, b) => a + b.downloads, 0);
+  }
+
+  function addProduct() {
+    const name = document.getElementById('newName').value.trim();
+    const game = document.getElementById('newGame').value;
+    const desc = document.getElementById('newDesc').value.trim();
+    const link = document.getElementById('newLink').value.trim();
+    const icon = document.getElementById('newIcon').value.trim() || '📦';
+    if (!name || !desc) { showToast('⚠️ Veuillez remplir le nom et la description.'); return; }
+    const newP = { id: Date.now(), name, game, desc, link: link || '#', icon, downloads: 0 };
+    products.push(newP);
+    saveProducts();
+    renderProducts();
+    renderAdminTable();
+    updateAdminStats();
+    document.getElementById('newName').value = '';
+    document.getElementById('newDesc').value = '';
+    document.getElementById('newLink').value = '';
+    document.getElementById('newIcon').value = '';
+    showToast('✅ Script ajouté avec succès !');
+  }
+
+  function deleteProduct(id) {
+    if (!confirm('Supprimer ce script ?')) return;
+    products = products.filter(p => p.id !== id);
+    saveProducts();
+    renderProducts();
+    renderAdminTable();
+    updateAdminStats();
+    showToast('🗑️ Script supprimé.');
+  }
+
+  function editProduct(id) {
+    const p = products.find(x => x.id === id);
+    const newName = prompt('Nouveau nom :', p.name);
+    if (newName === null) return;
+    p.name = newName || p.name;
+    saveProducts();
+    renderProducts();
+    renderAdminTable();
+    showToast('✏️ Script modifié.');
+  }
+
+  // ─── MODAL UTILS ───
+  function openModal(id) { document.getElementById(id).classList.add('open'); }
+  function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+  });
+
+  // ─── TOAST ───
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // ─── INIT ───
+  renderProducts();
+</script>
 </body>
 </html>
